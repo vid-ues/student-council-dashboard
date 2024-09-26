@@ -2,7 +2,7 @@
   "name": "student-council-dashboard",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ues-vid.github.io/student-council-dashboard",
+  "homepage": "https://vid-ues.github.io/student-council-dashboard",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
