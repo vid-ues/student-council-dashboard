@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/student-council-dashboard/precache-manifest.d16014b0d020e9e34b3f287769b14cc9.js"
+  "/student-council-dashboard/precache-manifest.aff6a5f68df3acce2721f8b651c13761.js"
 );
 
 self.addEventListener('message', (event) => {
