@@ -2,7 +2,7 @@
   "name": "student-council-dashboard",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ues-vid.github.io/student-council-dashboard",
+  "homepage": "https://vid-ues.github.io/student-council-dashboard",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -10,7 +10,7 @@
     "lucide-react": "^0.446.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^3.4.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
