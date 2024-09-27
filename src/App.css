@@ -1,54 +1,58 @@
 .App {
-  text-align: center;
   font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .App-header {
   background-color: #282c34;
   padding: 20px;
   color: white;
-}
-
-main {
-  padding: 20px;
-}
-
-.responses-container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.response-card {
-  background-color: #f0f0f0;
-  border-radius: 8px;
+  text-align: center;
   margin-bottom: 20px;
+}
+
+.questions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.question-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
   overflow: hidden;
 }
 
-.response-header {
-  background-color: #4a90e2;
-  color: white;
-  padding: 10px;
+.question-header {
+  background-color: #f0f0f0;
+  padding: 15px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.response-details {
+.question-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.responses-details {
   padding: 15px;
 }
 
-.qa-pair {
-  margin-bottom: 15px;
-  text-align: left;
+.response-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
 }
 
-.question {
+.error-message {
+  color: red;
+  text-align: center;
   font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.answer {
-  margin-left: 15px;
+  padding: 20px;
 }

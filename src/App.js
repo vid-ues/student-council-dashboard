@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-const LongFormResponseDisplay = () => {
-  const [responses, setResponses] = useState([]);
-  const [expandedIndex, setExpandedIndex] = useState(null);
+const QuestionResponseDisplay = () => {
+  const [questions, setQuestions] = useState([]);
+  const [responses, setResponses] = useState({});
+  const [expandedQuestion, setExpandedQuestion] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -25,13 +26,13 @@ const LongFormResponseDisplay = () => {
           return;
         }
         const [headers, ...rows] = data.values;
-        const formattedResponses = rows.map(row => {
-          return headers.reduce((acc, header, index) => {
-            acc[header] = row[index] || 'No response';
-            return acc;
-          }, {});
+        setQuestions(headers);
+
+        const responseData = {};
+        headers.forEach((question, index) => {
+          responseData[question] = rows.map(row => row[index] || 'No response');
         });
-        setResponses(formattedResponses);
+        setResponses(responseData);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -39,8 +40,8 @@ const LongFormResponseDisplay = () => {
       });
   }, []);
 
-  const toggleExpand = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
+  const toggleExpand = (question) => {
+    setExpandedQuestion(expandedQuestion === question ? null : question);
   };
 
   if (error) {
@@ -48,25 +49,24 @@ const LongFormResponseDisplay = () => {
   }
 
   return (
-    <div className="responses-container">
-      {responses.length === 0 ? (
+    <div className="questions-container">
+      {questions.length === 0 ? (
         <div>Loading...</div>
       ) : (
-        responses.map((response, index) => (
-          <div key={index} className="response-card">
+        questions.map((question, index) => (
+          <div key={index} className="question-card">
             <div 
-              className="response-header"
-              onClick={() => toggleExpand(index)}
+              className="question-header"
+              onClick={() => toggleExpand(question)}
             >
-              <h3>Response {index + 1}</h3>
-              <span>{expandedIndex === index ? '▲' : '▼'}</span>
+              <h3>{question}</h3>
+              <span>{expandedQuestion === question ? '▲' : '▼'}</span>
             </div>
-            {expandedIndex === index && (
-              <div className="response-details">
-                {Object.entries(response).map(([question, answer], qIndex) => (
-                  <div key={qIndex} className="qa-pair">
-                    <p className="question">{question}</p>
-                    <p className="answer">{answer}</p>
+            {expandedQuestion === question && (
+              <div className="responses-details">
+                {responses[question].map((response, respIndex) => (
+                  <div key={respIndex} className="response-item">
+                    <p>Response {respIndex + 1}: {response}</p>
                   </div>
                 ))}
               </div>
@@ -82,10 +82,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Student Council Survey Responses</h1>
+        <h1>Student Council Survey Questions</h1>
       </header>
       <main>
-        <LongFormResponseDisplay />
+        <QuestionResponseDisplay />
       </main>
     </div>
   );
