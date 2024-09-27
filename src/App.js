@@ -76,6 +76,7 @@ const QuestionResponseDisplay = () => {
     fetch(url)
       .then(response => response.json())
       .then(data => {
+        console.log("Fetched data:", data);  // Log fetched data to verify
         if (data.error) {
           setError(`API Error: ${data.error.message}`);
           return;
@@ -86,6 +87,8 @@ const QuestionResponseDisplay = () => {
         }
 
         const [headers, ...rows] = data.values;
+        console.log("Headers:", headers);  // Log headers to see the questions
+        console.log("Rows:", rows);  // Log rows to see the responses
 
         const groups = {
           "General Questions Set 1": headers.slice(0, 7),
@@ -104,8 +107,9 @@ const QuestionResponseDisplay = () => {
           const responsesForQuestion = rows
             .map(row => row[index] || '')  // Handle empty responses as blank
             .filter(response => response !== ''); // Filter out blank responses
+          
+          console.log(`Question: ${question}, Responses:`, responsesForQuestion);  // Log question and valid responses
 
-          // Store the responses even if empty, to display the question
           responseData[question] = responsesForQuestion;
         });
 
