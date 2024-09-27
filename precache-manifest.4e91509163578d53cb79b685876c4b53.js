@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "49ae4eb9fd7e5aa4e362a083267873df",
+    "revision": "a0fc38a4ec997191bb274b40e17b27db",
     "url": "/student-council-dashboard/index.html"
   },
   {
-    "revision": "61c0dd3c104f1ca412fb",
+    "revision": "94b7ed4258666e0704c4",
     "url": "/student-council-dashboard/static/css/main.5ecd60fb.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/student-council-dashboard/static/js/3.2341272e.chunk.js"
   },
   {
-    "revision": "61c0dd3c104f1ca412fb",
-    "url": "/student-council-dashboard/static/js/main.75aaea58.chunk.js"
+    "revision": "94b7ed4258666e0704c4",
+    "url": "/student-council-dashboard/static/js/main.2f7d7324.chunk.js"
   },
   {
     "revision": "9350c84d499b851ddfc9",
