@@ -10,32 +10,35 @@ const LongFormResponseDisplay = () => {
     const SHEET_ID = '1b6PKIXGqHTFEsU3wiObNe7cSfzNvQMLmGNqiGtBBB5c';
     const API_KEY = 'AIzaSyBSm0APazfjqdqSvpiMQA63NUviz3Qz0FU';
     const SHEET_NAME = 'Form Responses 1';
-    const range = `${SHEET_NAME}!F1:AG`;
+    const range = `${SHEET_NAME}!F:AG`;
 
-    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}?key=${API_KEY}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          setError(`API Error: ${data.error.message}`);
-          return;
-        }
-        if (!data.values || data.values.length < 2) {
-          setError('No data found or insufficient data');
-          return;
-        }
-        const [headers, ...rows] = data.values;
-        const formattedResponses = rows.map(row => {
-          return headers.reduce((acc, header, index) => {
-            acc[header] = row[index] || 'No response';
-            return acc;
-          }, {});
-        });
-        setResponses(formattedResponses);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        setError(`Fetch error: ${error.message}`);
+    const script = document.createElement('script');
+    script.src = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}?key=${API_KEY}&callback=onDataLoaded`;
+    document.body.appendChild(script);
+
+    window.onDataLoaded = (response) => {
+      if (response.error) {
+        setError(`API Error: ${response.error.message}`);
+        return;
+      }
+      if (!response.values || response.values.length < 2) {
+        setError('No data found or insufficient data');
+        return;
+      }
+      const [headers, ...rows] = response.values;
+      const formattedResponses = rows.map(row => {
+        return headers.reduce((acc, header, index) => {
+          acc[header] = row[index] || 'No response';
+          return acc;
+        }, {});
       });
+      setResponses(formattedResponses);
+    };
+
+    return () => {
+      delete window.onDataLoaded;
+      document.body.removeChild(script);
+    };
   }, []);
 
   const toggleExpand = (index) => {
