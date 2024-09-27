@@ -99,15 +99,14 @@ const QuestionResponseDisplay = () => {
 
         const responseData = {};
 
+        // Store all questions and their responses
         headers.forEach((question, index) => {
-          const validResponses = rows
-            .map(row => row[index] || 'No response')
-            .filter(response => response !== 'No response'); // Keep only valid responses
+          const responsesForQuestion = rows
+            .map(row => row[index] || '')  // Handle empty responses as blank
+            .filter(response => response !== ''); // Filter out blank responses
 
-          // If there are some valid responses, include this question
-          if (validResponses.length > 0) {
-            responseData[question] = validResponses;
-          }
+          // Store the responses even if empty, to display the question
+          responseData[question] = responsesForQuestion;
         });
 
         setQuestionGroups({ groups, responses: responseData });
@@ -131,29 +130,30 @@ const QuestionResponseDisplay = () => {
       {Object.entries(questionGroups.groups || {}).map(([groupName, questions]) => (
         <div key={groupName}>
           <h2 style={styles.groupHeader}>{groupName}</h2>
-          {questions
-            .filter(question => questionGroups.responses && questionGroups.responses[question]) // Filter out questions with no valid responses
-            .map((question, index) => (
-              <div key={index} style={styles.questionCard}>
-                <div
-                  style={styles.questionHeader}
-                  onClick={() => toggleExpand(question)}
-                >
-                  <h3 style={styles.questionTitle}>{question}</h3>
-                  <span>{expandedQuestion === question ? '▲' : '▼'}</span>
-                </div>
-                {expandedQuestion === question && questionGroups.responses && (
-                  <div style={styles.responsesDetails}>
-                    {questionGroups.responses[question]
-                      .map((response, respIndex) => (
-                        <div key={respIndex} style={styles.responseItem}>
-                          <p>Response {respIndex + 1}: {response}</p>
-                        </div>
-                      ))}
-                  </div>
-                )}
+          {questions.map((question, index) => (
+            <div key={index} style={styles.questionCard}>
+              <div
+                style={styles.questionHeader}
+                onClick={() => toggleExpand(question)}
+              >
+                <h3 style={styles.questionTitle}>{question}</h3>
+                <span>{expandedQuestion === question ? '▲' : '▼'}</span>
               </div>
-            ))}
+              {expandedQuestion === question && questionGroups.responses && (
+                <div style={styles.responsesDetails}>
+                  {questionGroups.responses[question].length > 0 ? (
+                    questionGroups.responses[question].map((response, respIndex) => (
+                      <div key={respIndex} style={styles.responseItem}>
+                        <p>Response {respIndex + 1}: {response}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No responses available for this question.</p> // Optional message if there are no responses
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       ))}
     </div>
