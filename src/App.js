@@ -6,38 +6,38 @@ const LongFormResponseDisplay = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [error, setError] = useState(null);
 
-useEffect(() => {
-  const SHEET_ID = '1b6PKIXGqHTFEsU3wiObNe7cSfzNvQMLmGNqiGtBBB5c';
-  const API_KEY = 'AIzaSyBSm0APazfjqdqSvpiMQA63NUviz3Qz0FU';
-  const SHEET_NAME = 'Form Responses 1';
-  const range = `${SHEET_NAME}!F:AG`;
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}?key=${API_KEY}`;
+  useEffect(() => {
+    const SHEET_ID = '1b6PKIXGqHTFEsU3wiObNe7cSfzNvQMLmGNqiGtBBB5c';
+    const API_KEY = 'AIzaSyBSm0APazfjqdqSvpiMQA63NUviz3Qz0FU';
+    const SHEET_NAME = 'Form Responses 1';
+    const range = `${SHEET_NAME}!F:AG`;
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}?key=${API_KEY}`;
 
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      if (data.error) {
-        setError(`API Error: ${data.error.message}`);
-        return;
-      }
-      if (!data.values || data.values.length < 2) {
-        setError('No data found or insufficient data');
-        return;
-      }
-      const [headers, ...rows] = data.values;
-      const formattedResponses = rows.map(row => {
-        return headers.reduce((acc, header, index) => {
-          acc[header] = row[index] || 'No response';
-          return acc;
-        }, {});
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          setError(`API Error: ${data.error.message}`);
+          return;
+        }
+        if (!data.values || data.values.length < 2) {
+          setError('No data found or insufficient data');
+          return;
+        }
+        const [headers, ...rows] = data.values;
+        const formattedResponses = rows.map(row => {
+          return headers.reduce((acc, header, index) => {
+            acc[header] = row[index] || 'No response';
+            return acc;
+          }, {});
+        });
+        setResponses(formattedResponses);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        setError(`Fetch error: ${error.message}`);
       });
-      setResponses(formattedResponses);
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-      setError(`Fetch error: ${error.message}`);
-    });
-}, []);
+  }, []);
 
   const toggleExpand = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
