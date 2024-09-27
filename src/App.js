@@ -1,5 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+
+const styles = {
+  app: {
+    fontFamily: 'Arial, sans-serif',
+    maxWidth: '800px',
+    margin: '0 auto',
+    padding: '20px',
+  },
+  header: {
+    backgroundColor: '#282c34',
+    padding: '20px',
+    color: 'white',
+    textAlign: 'center',
+    marginBottom: '20px',
+  },
+  questionsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '15px',
+  },
+  questionCard: {
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    overflow: 'hidden',
+  },
+  questionHeader: {
+    backgroundColor: '#f0f0f0',
+    padding: '15px',
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  questionTitle: {
+    margin: 0,
+    fontSize: '18px',
+  },
+  responsesDetails: {
+    padding: '15px',
+  },
+  responseItem: {
+    marginBottom: '10px',
+    padding: '10px',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '4px',
+  },
+  errorMessage: {
+    color: 'red',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    padding: '20px',
+  },
+};
 
 const QuestionResponseDisplay = () => {
   const [questions, setQuestions] = useState([]);
@@ -27,7 +79,6 @@ const QuestionResponseDisplay = () => {
         }
         const [headers, ...rows] = data.values;
         setQuestions(headers);
-
         const responseData = {};
         headers.forEach((question, index) => {
           responseData[question] = rows.map(row => row[index] || 'No response');
@@ -45,27 +96,27 @@ const QuestionResponseDisplay = () => {
   };
 
   if (error) {
-    return <div className="error-message">{error}</div>;
+    return <div style={styles.errorMessage}>{error}</div>;
   }
 
   return (
-    <div className="questions-container">
+    <div style={styles.questionsContainer}>
       {questions.length === 0 ? (
         <div>Loading...</div>
       ) : (
         questions.map((question, index) => (
-          <div key={index} className="question-card">
+          <div key={index} style={styles.questionCard}>
             <div 
-              className="question-header"
+              style={styles.questionHeader}
               onClick={() => toggleExpand(question)}
             >
-              <h3>{question}</h3>
+              <h3 style={styles.questionTitle}>{question}</h3>
               <span>{expandedQuestion === question ? '▲' : '▼'}</span>
             </div>
             {expandedQuestion === question && (
-              <div className="responses-details">
+              <div style={styles.responsesDetails}>
                 {responses[question].map((response, respIndex) => (
-                  <div key={respIndex} className="response-item">
+                  <div key={respIndex} style={styles.responseItem}>
                     <p>Response {respIndex + 1}: {response}</p>
                   </div>
                 ))}
@@ -80,8 +131,8 @@ const QuestionResponseDisplay = () => {
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
+    <div style={styles.app}>
+      <header style={styles.header}>
         <h1>Student Council Survey Questions</h1>
       </header>
       <main>
