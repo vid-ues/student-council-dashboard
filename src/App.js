@@ -84,6 +84,7 @@ const QuestionResponseDisplay = () => {
           setError('No data found or insufficient data');
           return;
         }
+
         const [headers, ...rows] = data.values;
 
         const groups = {
@@ -97,8 +98,15 @@ const QuestionResponseDisplay = () => {
         };
 
         const responseData = {};
+
+        // Filter each question's responses, removing 'No response'
         headers.forEach((question, index) => {
-          responseData[question] = rows.map(row => row[index] || 'No response');
+          const validResponses = rows.map(row => row[index] || 'No response')
+                                      .filter(response => response !== 'No response');
+          // Only include questions that have valid responses
+          if (validResponses.length > 0) {
+            responseData[question] = validResponses;
+          }
         });
 
         setQuestionGroups({ groups, responses: responseData });
@@ -113,10 +121,6 @@ const QuestionResponseDisplay = () => {
     setExpandedQuestion(expandedQuestion === question ? null : question);
   };
 
-  const hasValidResponses = (responses) => {
-    return responses.some(response => response !== 'No response');
-  };
-
   if (error) {
     return <div style={styles.errorMessage}>{error}</div>;
   }
@@ -127,7 +131,7 @@ const QuestionResponseDisplay = () => {
         <div key={groupName}>
           <h2 style={styles.groupHeader}>{groupName}</h2>
           {questions
-            .filter(question => hasValidResponses(questionGroups.responses[question])) // Filter out questions with no valid responses
+            .filter(question => questionGroups.responses && questionGroups.responses[question]) // Filter out questions with no valid responses
             .map((question, index) => (
               <div key={index} style={styles.questionCard}>
                 <div
@@ -139,13 +143,11 @@ const QuestionResponseDisplay = () => {
                 </div>
                 {expandedQuestion === question && questionGroups.responses && (
                   <div style={styles.responsesDetails}>
-                    {questionGroups.responses[question]
-                      .filter(response => response !== 'No response') // Filter out 'No response' responses
-                      .map((response, respIndex) => (
-                        <div key={respIndex} style={styles.responseItem}>
-                          <p>Response {respIndex + 1}: {response}</p>
-                        </div>
-                      ))}
+                    {questionGroups.responses[question].map((response, respIndex) => (
+                      <div key={respIndex} style={styles.responseItem}>
+                        <p>Response {respIndex + 1}: {response}</p>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
