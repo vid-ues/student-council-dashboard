@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/student-council-dashboard/static/css/main.d6524aa1.chunk.css",
-    "main.js": "/student-council-dashboard/static/js/main.6cb0a2d0.chunk.js",
-    "main.js.map": "/student-council-dashboard/static/js/main.6cb0a2d0.chunk.js.map",
-    "runtime-main.js": "/student-council-dashboard/static/js/runtime-main.65c6827a.js",
-    "runtime-main.js.map": "/student-council-dashboard/static/js/runtime-main.65c6827a.js.map",
+    "main.css": "/student-council-dashboard/static/css/main.5ecd60fb.chunk.css",
+    "main.js": "/student-council-dashboard/static/js/main.75aaea58.chunk.js",
+    "main.js.map": "/student-council-dashboard/static/js/main.75aaea58.chunk.js.map",
+    "runtime-main.js": "/student-council-dashboard/static/js/runtime-main.67cf3ae7.js",
+    "runtime-main.js.map": "/student-council-dashboard/static/js/runtime-main.67cf3ae7.js.map",
     "static/js/2.a7d2e0aa.chunk.js": "/student-council-dashboard/static/js/2.a7d2e0aa.chunk.js",
     "static/js/2.a7d2e0aa.chunk.js.map": "/student-council-dashboard/static/js/2.a7d2e0aa.chunk.js.map",
-    "static/js/3.7b107fab.chunk.js": "/student-council-dashboard/static/js/3.7b107fab.chunk.js",
-    "static/js/3.7b107fab.chunk.js.map": "/student-council-dashboard/static/js/3.7b107fab.chunk.js.map",
+    "static/js/3.2341272e.chunk.js": "/student-council-dashboard/static/js/3.2341272e.chunk.js",
+    "static/js/3.2341272e.chunk.js.map": "/student-council-dashboard/static/js/3.2341272e.chunk.js.map",
     "index.html": "/student-council-dashboard/index.html",
-    "precache-manifest.a85d97ddc082cb8007ccc22e5d122121.js": "/student-council-dashboard/precache-manifest.a85d97ddc082cb8007ccc22e5d122121.js",
+    "precache-manifest.4be332dbf1d51559b76bd01c6cd3a58f.js": "/student-council-dashboard/precache-manifest.4be332dbf1d51559b76bd01c6cd3a58f.js",
     "service-worker.js": "/student-council-dashboard/service-worker.js",
-    "static/css/main.d6524aa1.chunk.css.map": "/student-council-dashboard/static/css/main.d6524aa1.chunk.css.map",
+    "static/css/main.5ecd60fb.chunk.css.map": "/student-council-dashboard/static/css/main.5ecd60fb.chunk.css.map",
     "static/js/2.a7d2e0aa.chunk.js.LICENSE.txt": "/student-council-dashboard/static/js/2.a7d2e0aa.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.65c6827a.js",
+    "static/js/runtime-main.67cf3ae7.js",
     "static/js/2.a7d2e0aa.chunk.js",
-    "static/css/main.d6524aa1.chunk.css",
-    "static/js/main.6cb0a2d0.chunk.js"
+    "static/css/main.5ecd60fb.chunk.css",
+    "static/js/main.75aaea58.chunk.js"
   ]
 }
