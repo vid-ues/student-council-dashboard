@@ -67,6 +67,8 @@ const QuestionResponseDisplay = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log("useEffect is running...");  // Log when useEffect runs
+
     const SHEET_ID = '1b6PKIXGqHTFEsU3wiObNe7cSfzNvQMLmGNqiGtBBB5c';
     const API_KEY = 'AIzaSyBSm0APazfjqdqSvpiMQA63NUviz3Qz0FU';
     const SHEET_NAME = 'Form Responses 1';
@@ -76,19 +78,21 @@ const QuestionResponseDisplay = () => {
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        console.log("Fetched data:", data);  // Log fetched data to verify
+        console.log("Fetched data:", data);  // Log the full data object
+
         if (data.error) {
           setError(`API Error: ${data.error.message}`);
           return;
         }
+
         if (!data.values || data.values.length < 2) {
           setError('No data found or insufficient data');
           return;
         }
 
         const [headers, ...rows] = data.values;
-        console.log("Headers:", headers);  // Log headers to see the questions
-        console.log("Rows:", rows);  // Log rows to see the responses
+        console.log("Headers:", headers);  // Log the headers (questions)
+        console.log("Rows:", rows);  // Log the rows (responses)
 
         const groups = {
           "General Questions Set 1": headers.slice(0, 7),
@@ -102,13 +106,13 @@ const QuestionResponseDisplay = () => {
 
         const responseData = {};
 
-        // Store all questions and their responses
+        // Process each question's responses
         headers.forEach((question, index) => {
           const responsesForQuestion = rows
             .map(row => row[index] || '')  // Handle empty responses as blank
             .filter(response => response !== ''); // Filter out blank responses
           
-          console.log(`Question: ${question}, Responses:`, responsesForQuestion);  // Log question and valid responses
+          console.log(`Question: ${question}, Responses:`, responsesForQuestion);  // Log the responses for each question
 
           responseData[question] = responsesForQuestion;
         });
