@@ -19,6 +19,14 @@ const styles = {
     flexDirection: 'column',
     gap: '15px',
   },
+  groupHeader: {
+    backgroundColor: '#4a4a4a',
+    color: 'white',
+    padding: '10px',
+    marginTop: '20px',
+    marginBottom: '10px',
+    borderRadius: '5px',
+  },
   questionCard: {
     border: '1px solid #ddd',
     borderRadius: '8px',
@@ -54,8 +62,7 @@ const styles = {
 };
 
 const QuestionResponseDisplay = () => {
-  const [questions, setQuestions] = useState([]);
-  const [responses, setResponses] = useState({});
+  const [questionGroups, setQuestionGroups] = useState({});
   const [expandedQuestion, setExpandedQuestion] = useState(null);
   const [error, setError] = useState(null);
 
@@ -78,12 +85,23 @@ const QuestionResponseDisplay = () => {
           return;
         }
         const [headers, ...rows] = data.values;
-        setQuestions(headers);
+
+        const groups = {
+          "General Questions Set 1": headers.slice(0, 7),
+          "Student Body President": headers.slice(10, 13),
+          "Student Body Vice President": headers.slice(13, 16),
+          "Student Body Secretary": headers.slice(16, 19),
+          "Student Body Treasurer": headers.slice(19, 22),
+          "Student Body Speaker": headers.slice(22, 25),
+          "General Questions Set 2": headers.slice(25)
+        };
+
         const responseData = {};
         headers.forEach((question, index) => {
           responseData[question] = rows.map(row => row[index] || 'No response');
         });
-        setResponses(responseData);
+
+        setQuestionGroups({ groups, responses: responseData });
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -95,36 +113,45 @@ const QuestionResponseDisplay = () => {
     setExpandedQuestion(expandedQuestion === question ? null : question);
   };
 
+  const hasValidResponses = (responses) => {
+    return responses.some(response => response !== 'No response');
+  };
+
   if (error) {
     return <div style={styles.errorMessage}>{error}</div>;
   }
 
   return (
     <div style={styles.questionsContainer}>
-      {questions.length === 0 ? (
-        <div>Loading...</div>
-      ) : (
-        questions.map((question, index) => (
-          <div key={index} style={styles.questionCard}>
-            <div 
-              style={styles.questionHeader}
-              onClick={() => toggleExpand(question)}
-            >
-              <h3 style={styles.questionTitle}>{question}</h3>
-              <span>{expandedQuestion === question ? '▲' : '▼'}</span>
-            </div>
-            {expandedQuestion === question && (
-              <div style={styles.responsesDetails}>
-                {responses[question].map((response, respIndex) => (
-                  <div key={respIndex} style={styles.responseItem}>
-                    <p>Response {respIndex + 1}: {response}</p>
+      {Object.entries(questionGroups.groups || {}).map(([groupName, questions]) => (
+        <div key={groupName}>
+          <h2 style={styles.groupHeader}>{groupName}</h2>
+          {questions
+            .filter(question => hasValidResponses(questionGroups.responses[question])) // Filter out questions with no valid responses
+            .map((question, index) => (
+              <div key={index} style={styles.questionCard}>
+                <div
+                  style={styles.questionHeader}
+                  onClick={() => toggleExpand(question)}
+                >
+                  <h3 style={styles.questionTitle}>{question}</h3>
+                  <span>{expandedQuestion === question ? '▲' : '▼'}</span>
+                </div>
+                {expandedQuestion === question && questionGroups.responses && (
+                  <div style={styles.responsesDetails}>
+                    {questionGroups.responses[question]
+                      .filter(response => response !== 'No response') // Filter out 'No response' responses
+                      .map((response, respIndex) => (
+                        <div key={respIndex} style={styles.responseItem}>
+                          <p>Response {respIndex + 1}: {response}</p>
+                        </div>
+                      ))}
                   </div>
-                ))}
+                )}
               </div>
-            )}
-          </div>
-        ))
-      )}
+            ))}
+        </div>
+      ))}
     </div>
   );
 };
